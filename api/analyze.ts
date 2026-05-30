@@ -73,7 +73,7 @@ ${chronology}
 Instruksi Analisis:
 1. Ringkas kronologi ke bentuk fakta hukum penting yang terstruktur.
 2. Klasifikasikan jenis pelanggaran secara jelas di hukum perundang-undangan Indonesia (e.g. Buku II KUHP, UU ITE, KUHPerdata, UU Ketenagakerjaan).
-3. Identifikasi minimal 1 sampai 3 pasal terkait yang paling kuat menjerat atau melindungi pihak berwenang. Berikan kutipan undang-undang beserta alasan kuat mengapa pasal itu dicantumkan.
+3. Identifikasi minimal 1 sampai 3 pasal terkait yang paling kuat menjerat atau melindungi pihak berwenang. Jelaskan isi/substansi pasal tersebut menggunakan bahasa Anda sendiri (hindari kutipan verbatim/kata-per-kata secara eksak untuk menghindari sensor hak cipta/recitation) beserta alasan kuat mengapa pasal itu dicantumkan.
 4. Lakukan Analisis Unsur Hukum dari PASAL UTAMA yang dilanggar. Pecah pasal tersebut menjadi unsur-unsur pembentuknya, lalu tentukan apakah 'terpenuhi' (true) atau tidak (false) berdasarkan rincian kronologi, lengkap dengan penjelasan analisanya yang logis.
 5. Sediakan Pertimbangan Hukum tambahan seperti kelengkapan alat bukti (berdasarkan Pasal 184 KUHAP untuk pidana atau pembuktian perdata), daluwarsa tuntutan, atau yurisprudensi yang relevan.
 6. Sebutkan Potensi Sanksi hukuman pidana kurungan, denda rupiah, ganti rugi, atau sanksi administratif secara spesifik.
@@ -87,7 +87,7 @@ Instruksi Analisis:
         systemInstruction: systemPrompt,
         responseMimeType: "application/json",
         responseSchema: responseSchema as any,
-        temperature: 0.1
+        temperature: 0.7
       }
     });
 

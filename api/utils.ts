@@ -73,7 +73,7 @@ export const responseSchema = {
           },
           isiPasal: {
             type: "string",
-            description: "Bunyi kutipan resmi pasal tersebut dalam bahasa Indonesia."
+            description: "Penjelasan substansi atau isi pasal tersebut dalam bahasa Indonesia secara ringkas (hindari mengutip kata-per-kata secara eksak untuk menghindari sensor)."
           },
           alasanPemilihan: {
             type: "string",
