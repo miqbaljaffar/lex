@@ -1,0 +1,6 @@
+{
+  "name": "LexAI",
+  "description": "AI Legal Reasoning System untuk menganalisis dugaan pelanggaran hukum berdasarkan hukum Indonesia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
