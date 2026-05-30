@@ -1,0 +1,7 @@
+# robots.txt for LexAI
+# Allow all crawlers to access public pages.
+User-agent: *
+Allow: /
+
+# Note: This project is primarily a local/demo application.
+# If deployed, update robots.txt to reflect desired crawl rules.
