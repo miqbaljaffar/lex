@@ -1,4 +1,4 @@
-import { getDb, saveDb, DEFAULT_USER_ID } from "./utils";
+import { getDb, saveDb, DEFAULT_USER_ID } from "./utils.js";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
