@@ -128,7 +128,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
     <div className="max-w-4xl mx-auto space-y-8" id="analysis-form-container">
       {loading ? (
         /* Real-time AI compiling state */
-        <div className="glass-panel-neon p-12 rounded-3xl text-center space-y-8 min-h-[460px] flex flex-col items-center justify-center animate-fade-in" id="legal-ai-loader">
+        <div className="glass-panel-neon p-12 rounded-3xl text-center space-y-8 min-h-115 flex flex-col items-center justify-center animate-fade-in" id="legal-ai-loader">
           <div className="relative">
             {/* Spinning ring */}
             <div className="w-20 h-20 rounded-full border-4 border-slate-900 border-t-indigo-500 animate-spin" />
@@ -143,7 +143,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
               <span>LexAI Mengompilasi Kasus...</span>
             </h3>
             
-            <p className="text-sm text-indigo-200 font-mono font-medium min-h-[24px]">
+            <p className="text-sm text-indigo-200 font-mono font-medium min-h-6">
               {steps[loadingStep]}
             </p>
             
@@ -204,7 +204,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
 
           {err && (
             <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400 text-sm flex items-start space-x-3">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <AlertCircle className="w-5 h-5 shrink-0" />
               <span>{err}</span>
             </div>
           )}
@@ -297,7 +297,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
 
             {/* Legal tips caution panel */}
             <div className="p-4 bg-slate-950 border border-slate-900 rounded-xl flex items-start space-x-3">
-              <ShieldAlert className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
+              <ShieldAlert className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <span className="text-[11px] font-semibold text-slate-300 block">Kebijakan Kerahasiaan Pengguna</span>
                 <p className="text-[10px] text-slate-500 font-light leading-normal">
@@ -311,7 +311,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
               <button
                 id="submit-analysis-btn"
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-indigo-600 shadow-md shadow-indigo-600/10 flex items-center justify-center space-x-2 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
+                className="w-full py-4 bg-linear-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-indigo-600 shadow-md shadow-indigo-600/10 flex items-center justify-center space-x-2 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
               >
                 <Gavel className="w-4 h-4" />
                 <span>Mulai Analisis Hukum AI</span>
