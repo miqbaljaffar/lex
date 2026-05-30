@@ -50,7 +50,7 @@ export default function Sidebar({
           <div className="p-2 bg-indigo-600 rounded-lg text-white shadow-md shadow-indigo-500/20">
             <Gavel className="w-5 h-5 text-indigo-100" />
           </div>
-          <span className="font-display font-semibold text-lg tracking-wider text-slate-100 bg-gradient-to-r from-indigo-200 via-indigo-100 to-purple-200 bg-clip-text">
+          <span className="font-display font-semibold text-lg tracking-wider text-slate-100 bg-linear-to-r from-indigo-200 via-indigo-100 to-purple-200 bg-clip-text">
             Lex<span className="text-indigo-400">AI</span>
           </span>
         </div>
@@ -79,13 +79,13 @@ export default function Sidebar({
         {/* Top Header */}
         <div className="space-y-8">
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleNav("landing")}>
-            <div className="p-2.5 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl text-white shadow-lg shadow-indigo-500/10">
+            <div className="p-2.5 bg-linear-to-tr from-indigo-600 to-purple-600 rounded-xl text-white shadow-lg shadow-indigo-500/10">
               <Gavel className="w-6 h-6 text-indigo-50" />
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
                 <span className="font-display font-bold text-xl tracking-wider text-slate-100">
-                  Lex<span className="text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text">AI</span>
+                  Lex<span className="text-transparent bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text">AI</span>
                 </span>
                 <span className="text-[10px] font-semibold font-mono bg-indigo-500/10 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-500/20">
                   RI v1.0
@@ -110,7 +110,7 @@ export default function Sidebar({
                     ${isActive 
                       ? "bg-indigo-600/15 text-indigo-300 border border-indigo-500/20 shadow-inner" 
                       : "text-slate-400 hover:bg-slate-900/50 hover:text-slate-200 border border-transparent"}
-                    ${item.isPrimary ? "bg-gradient-to-r from-indigo-600 to-indigo-700/80 text-white font-semibold shadow-md shadow-indigo-600/20 hover:from-indigo-500 hover:to-indigo-600" : ""}
+                    ${item.isPrimary ? "bg-linear-to-r from-indigo-600 to-indigo-700/80 text-white font-semibold shadow-md shadow-indigo-600/20 hover:from-indigo-500 hover:to-indigo-600" : ""}
                   `}
                 >
                   <div className="flex items-center space-x-3">
@@ -131,7 +131,7 @@ export default function Sidebar({
         {/* Bottom User Area */}
         <div className="mt-auto space-y-4 pt-6 border-t border-slate-900/80">
           <div className="flex items-start space-x-3 p-3 bg-slate-900/40 rounded-xl border border-slate-900/80">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white uppercase shadow border border-slate-800">
+            <div className="w-9 h-9 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white uppercase shadow border border-slate-800">
               {userEmail.substring(0, 2)}
             </div>
             <div className="overflow-hidden min-w-0">
