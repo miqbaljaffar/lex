@@ -283,7 +283,7 @@ Instruksi Analisis:
 8. Berikan Nilai Keyakinan Analisis (Confidence Score) antara 0-100 persen berdasarkan kekuatan fakta hukum dan kelengkapan bukti.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: userTextPrompt,
         config: {
           systemInstruction: systemPrompt,
