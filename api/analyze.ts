@@ -93,7 +93,8 @@ Instruksi Analisis:
 
     const responseText = response.text;
     if (!responseText) {
-      throw new Error("Tanggapan dari Gemini kosong.");
+      console.error("Empty response from Gemini. Full response:", JSON.stringify(response));
+      throw new Error("Tanggapan dari Gemini kosong. Response: " + JSON.stringify(response));
     }
 
     const analyticResult = JSON.parse(responseText.trim());
