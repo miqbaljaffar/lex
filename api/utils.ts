@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
-import { GoogleGenAI, Type } from "@google/genai";
 
 const isVercel = process.env.VERCEL === "1";
 const repoDbPath = path.join(process.cwd(), "db.json");
@@ -48,36 +47,36 @@ export async function saveDb(db: any) {
 }
 
 export const responseSchema = {
-  type: Type.OBJECT,
+  type: "object",
   properties: {
     ringkasan: {
-      type: Type.STRING,
+      type: "string",
       description: "Ringkasan kronologi kasus secara padat, objektif, dan faktual menggunakan bahasa formal Indonesia."
     },
     klasifikasi: {
-      type: Type.STRING,
+      type: "string",
       description: "Klasifikasi hukum yang tepat (Contoh: Hukum Pidana - Penipuan, Hukum Perdata - Perbuatan Melawan Hukum (PMH))"
     },
     pasalTerkait: {
-      type: Type.ARRAY,
+      type: "array",
       description: "Daftar pasal perundang-undangan Indonesia yang relevan dengan kasus tersebut.",
       items: {
-        type: Type.OBJECT,
+        type: "object",
         properties: {
           undangUndang: {
-            type: Type.STRING,
+            type: "string",
             description: "Nama Undang-Undang atau Peraturan secara lengkap (contoh: Kitab Undang-Undang Hukum Pidana (KUHP))"
           },
           pasal: {
-            type: Type.STRING,
+            type: "string",
             description: "Nomor pasal dan ayat yang relevan (contoh: Pasal 378 atau Pasal 1365)"
           },
           isiPasal: {
-            type: Type.STRING,
+            type: "string",
             description: "Bunyi kutipan resmi pasal tersebut dalam bahasa Indonesia."
           },
           alasanPemilihan: {
-            type: Type.STRING,
+            type: "string",
             description: "Alasan mengapa pasal ini sangat relevan untuk mengadili kasus ini berdasarkan fakta kronologi."
           }
         },
@@ -85,21 +84,21 @@ export const responseSchema = {
       }
     },
     analisisUnsur: {
-      type: Type.ARRAY,
+      type: "array",
       description: "Pecah unsur-unsur hukum dari pasal utama yang dilanggar secara mendetail.",
       items: {
-        type: Type.OBJECT,
+        type: "object",
         properties: {
           unsur: {
-            type: Type.STRING,
+            type: "string",
             description: "Kutipan klausa atau unsur dari pasal utama tersebut (contoh: 'Barang siapa' atau 'Dengan maksud menguntungkan diri sendiri secara melawan hukum')"
           },
           terpenuhi: {
-            type: Type.BOOLEAN,
+            type: "boolean",
             description: "Apakah unsur ini terpenuhi oleh tindakan atau kondisi dalam kasus yang diberikan?"
           },
           analisisFakta: {
-            type: Type.STRING,
+            type: "string",
             description: "Penjelasan terperinci dan logis yang mengaitkan teks kronologi kasus dengan pemenuhan unsur hukum ini."
           }
         },
@@ -107,22 +106,22 @@ export const responseSchema = {
       }
     },
     pertimbanganHukum: {
-      type: Type.ARRAY,
+      type: "array",
       description: "Faktor-faktor pertimbangan hukum lain (posisi alat bukti, potensi daluwarsa, yurisprudensi relevan) dalam bahasa Indonesia.",
       items: {
-        type: Type.STRING
+        type: "string"
       }
     },
     potensiSanksi: {
-      type: Type.STRING,
+      type: "string",
       description: "Rincian ancaman pidana atau pertanggungjawaban perdata (contoh: Penjara maksimal 4 tahun, atau denda materiil ganti rugi)"
     },
     kesimpulan: {
-      type: Type.STRING,
+      type: "string",
       description: "Konklusi akhir menyeluruh meliputi prospek kasus, dan rekomendasi praktis langkah hukum berikutnya."
     },
     confidenceScore: {
-      type: Type.INTEGER,
+      type: "integer",
       description: "Tingkat keyakinan analisis hukum ini dalam skala persentasi (0-100)"
     }
   },

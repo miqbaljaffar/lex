@@ -1,4 +1,3 @@
-import { GoogleGenAI } from "@google/genai";
 import { getDb, saveDb, DEFAULT_USER_ID, responseSchema, generateSimulatedReasoning } from "./utils";
 
 export default async function handler(req: any, res: any) {
@@ -48,6 +47,8 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    // Lazy-import the SDK to avoid initialization-time errors on serverless platforms
+    const { GoogleGenAI } = await import("@google/genai");
     const ai = new GoogleGenAI({
       apiKey,
       httpOptions: {
