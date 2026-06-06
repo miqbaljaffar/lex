@@ -31,14 +31,14 @@
   --color-purple-900: #f5e8e0;
   --color-purple-950: #faf5f2;
 
-  --color-slate-50: #1c1917;
-  --color-slate-100: #2d2722;
-  --color-slate-200: #443e38;
-  --color-slate-300: #5c534c;
-  --color-slate-400: #74695d;
-  --color-slate-500: #8c8072;
-  --color-slate-600: #a89d90;
-  --color-slate-700: #cbbfae;
+  --color-slate-50: #0c0b0a;
+  --color-slate-100: #1a1816;
+  --color-slate-200: #2a2622;
+  --color-slate-300: #3a3530;
+  --color-slate-400: #4a443e;
+  --color-slate-500: #5c544c;
+  --color-slate-600: #655a4e;
+  --color-slate-700: #bcafa0;
   --color-slate-800: #e2d9ca;
   --color-slate-900: #ebd6be;
   --color-slate-950: #faf8f5;
@@ -60,11 +60,11 @@ body {
   background: #e2d9ca;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbbfae;
+  background: #bcafa0;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a89d90;
+  background: #655a4e;
 }
 
 /* Glassmorphism utility classes */

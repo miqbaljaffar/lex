@@ -43,7 +43,7 @@ export default function AnalysisResultView({
     return (
       <div className="glass-panel p-8 rounded-2xl text-center space-y-4">
         <AlertTriangle className="w-8 h-8 text-amber-500 mx-auto" />
-        <h3 className="font-semibold text-white">Data Penalaran Kosong</h3>
+        <h3 className="font-semibold text-slate-100">Data Penalaran Kosong</h3>
         <p className="text-xs text-slate-400">Terjadi kesalahan. Kasus ini belum diproses penalaran hukum oleh sistem LexAI.</p>
         <button onClick={onBack} className="px-4 py-2 bg-slate-900 rounded-lg text-xs text-slate-200">Kembali</button>
       </div>
@@ -117,12 +117,12 @@ Laporan ini disusun secara otomatis oleh Asisten AI Legal Reasoning LexAI RI.
         <div className="space-y-1">
           <button 
             onClick={onBack}
-            className="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center space-x-1.5"
+            className="text-xs font-medium text-slate-400 hover:text-slate-100 transition-colors flex items-center space-x-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Kembali ke Dashboard</span>
           </button>
-          <h2 className="font-display font-bold text-xl md:text-2xl text-white tracking-tight truncate max-w-xl">
+          <h2 className="font-display font-bold text-xl md:text-2xl text-slate-100 tracking-tight truncate max-w-xl">
             {caseData.title}
           </h2>
           <div className="flex items-center space-x-2 text-[11px] text-slate-500">
@@ -399,7 +399,7 @@ Laporan ini disusun secara otomatis oleh Asisten AI Legal Reasoning LexAI RI.
       <div className="pt-4 flex justify-between items-center no-print">
         <button 
           onClick={onBack}
-          className="px-6 py-3 bg-slate-900 hover:bg-slate-850 hover:text-white rounded-xl text-xs font-semibold text-slate-300 transition-all cursor-pointer"
+          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 hover:text-slate-100 rounded-xl text-xs font-semibold text-slate-300 transition-all cursor-pointer"
         >
           Kembali ke Dashboard
         </button>

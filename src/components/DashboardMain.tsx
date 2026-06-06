@@ -83,7 +83,7 @@ export default function DashboardMain({
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">Sesi Aktif Terautentikasi</span>
           </div>
-          <h2 className="font-display font-bold text-xl md:text-2xl text-white tracking-tight">
+          <h2 className="font-display font-bold text-xl md:text-2xl text-slate-100 tracking-tight">
             Selamat Datang di Portal Hukum, <span className="text-transparent bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text font-extrabold">{userEmail.split("@")[0]}</span>
           </h2>
           <p className="text-xs text-slate-400 font-light max-w-xl leading-relaxed">
@@ -122,7 +122,7 @@ export default function DashboardMain({
           </div>
           <div>
             <span className="text-[10px] font-mono text-slate-500 font-bold tracking-wider block uppercase">TOTAL ANALISIS</span>
-            <p className="text-2xl font-display font-semibold text-white mt-0.5">{totalCases}</p>
+            <p className="text-2xl font-display font-semibold text-slate-100 mt-0.5">{totalCases}</p>
             <span className="text-[10px] text-slate-400 font-light mt-1 block">Kasus hukum dideklarasikan</span>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function DashboardMain({
           </div>
           <div>
             <span className="text-[10px] font-mono text-slate-500 font-bold tracking-wider block uppercase">ARSIP PENINGKATAN</span>
-            <p className="text-2xl font-display font-semibold text-white mt-0.5">{totalBookmarks}</p>
+            <p className="text-2xl font-display font-semibold text-slate-100 mt-0.5">{totalBookmarks}</p>
             <span className="text-[10px] text-slate-400 font-light mt-1 block">Kasus di-bookmark aktif</span>
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function DashboardMain({
                   </p>
                 </div>
                 {searchQuery ? (
-                  <button onClick={() => setSearchQuery("")} className="px-3 py-1.5 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-xs transition-colors">
+                  <button onClick={() => setSearchQuery("")} className="px-3 py-1.5 bg-slate-900 border border-slate-800 text-slate-300 hover:text-slate-100 rounded-lg text-xs transition-colors">
                     Reset Pencarian
                   </button>
                 ) : (

@@ -84,7 +84,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
           <span>Indonesian AI Legal Reasoning Technology</span>
         </div>
         
-        <h1 className="font-display font-bold text-4xl md:text-6xl tracking-tight text-white leading-[1.1]">
+        <h1 className="font-display font-bold text-4xl md:text-6xl tracking-tight text-slate-100 leading-[1.1]">
           Sistem <span className="bg-gradient-to-r from-indigo-400 via-indigo-200 to-purple-400 bg-clip-text text-transparent">Penalaran Hukum AI</span> Untuk Regulasi Indonesia
         </h1>
         
@@ -104,7 +104,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
           
           <a 
             href="#cara-kerja"
-            className="w-full sm:w-auto px-8 py-4 bg-slate-900 border border-slate-800 text-slate-300 font-medium rounded-xl hover:bg-slate-850 hover:text-white transition-colors flex items-center justify-center"
+            className="w-full sm:w-auto px-8 py-4 bg-slate-900 border border-slate-800 text-slate-300 font-medium rounded-xl hover:bg-slate-800 hover:text-slate-100 transition-colors flex items-center justify-center"
           >
             Pelajari Cara Kerja
           </a>
@@ -128,7 +128,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-display font-medium text-2xl lg:text-3xl text-white tracking-tight">{stat.value}</h3>
+                  <p className="font-display font-medium text-2xl lg:text-3xl text-slate-100 tracking-tight">{stat.value}</p>
                   <p className="text-[11px] text-slate-400 font-light mt-1">{stat.desc}</p>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
       {/* 3. Cara Kerja Section */}
       <section className="pt-8 max-w-6xl mx-auto px-4 space-y-12" id="cara-kerja">
         <div className="text-center space-y-3">
-          <h2 className="font-display font-bold text-3xl text-white tracking-tight">Proses Penalaran Hukum AI</h2>
+          <h2 className="font-display font-bold text-3xl text-slate-100 tracking-tight">Proses Penalaran Hukum AI</h2>
           <p className="text-slate-400 text-sm max-w-xl mx-auto font-light leading-relaxed">
             Dari kronologi perkara lepas hingga laporan taktis analisis hukum formal yang sangat komprehensif.
           </p>
@@ -160,7 +160,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
                   <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600/10 group-hover:text-indigo-300 transition-colors">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="font-display font-bold text-3xl text-slate-800 font-outline group-hover:text-indigo-400/25 transition-colors leading-none">{flow.step}</span>
+                  <span className="font-display font-bold text-3xl text-indigo-400/60 group-hover:text-indigo-600 transition-colors leading-none">{flow.step}</span>
                 </div>
                 <div className="space-y-1.5">
                   <h3 className="font-display font-semibold text-base text-slate-200">{flow.title}</h3>
@@ -176,7 +176,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
       <section className="max-w-3xl mx-auto px-4 space-y-8" id="faq-section">
         <div className="text-center space-y-3">
           <Gavel className="w-8 h-8 text-indigo-500 mx-auto" />
-          <h2 className="font-display font-bold text-3xl text-white tracking-tight">Pertanyaan yang Sering Diajukan</h2>
+          <h2 className="font-display font-bold text-3xl text-slate-100 tracking-tight">Pertanyaan yang Sering Diajukan</h2>
           <p className="text-slate-400 text-sm font-light">Pelajari regulasi pengoperasian LexAI di Indonesia.</p>
         </div>
 
@@ -190,7 +190,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between font-medium text-slate-200 hover:text-white transition-colors"
+                  className="w-full text-left px-6 py-4 flex items-center justify-between font-medium text-slate-200 hover:text-slate-100 transition-colors"
                 >
                   <span className="text-sm md:text-base font-display">{faq.q}</span>
                   <HelpCircle className={`w-4 h-4 text-slate-500 transition-transform ${isOpen ? 'rotate-180 text-indigo-400' : ''}`} />
@@ -215,7 +215,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
           <Scale className="w-12 h-12 text-indigo-400 mx-auto" />
           
           <div className="space-y-2">
-            <h2 className="font-display font-bold text-2xl md:text-3xl text-white tracking-tight">Siap Melakukan Penalaran Hukum?</h2>
+            <h2 className="font-display font-bold text-2xl md:text-3xl text-slate-100 tracking-tight">Siap Melakukan Penalaran Hukum?</h2>
             <p className="text-slate-400 text-sm max-w-md mx-auto font-light leading-relaxed">
               Bergabunglah dengan pengacara, akademisi, dan publik dalam menyingkap keadilan hukum secara modern.
             </p>
@@ -223,10 +223,10 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
 
           <button
             onClick={onStart}
-            className="px-8 py-3.5 bg-white text-slate-950 font-semibold rounded-xl hover:bg-slate-100 shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] inline-flex items-center space-x-2 cursor-pointer"
+            className="px-8 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] inline-flex items-center space-x-2 cursor-pointer"
           >
             <span>Buka Dashboard Analisis</span>
-            <ChevronRight className="w-4 h-4 text-slate-950" />
+            <ChevronRight className="w-4 h-4 text-white" />
           </button>
         </div>
       </section>

@@ -138,7 +138,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
           </div>
 
           <div className="space-y-4 max-w-md">
-            <h3 className="font-display font-bold text-xl text-white tracking-tight animate-pulse flex items-center justify-center gap-2">
+            <h3 className="font-display font-bold text-xl text-slate-100 tracking-tight animate-pulse flex items-center justify-center gap-2">
               <Sparkles className="w-5 h-5 text-indigo-400" />
               <span>LexAI Mengompilasi Kasus...</span>
             </h3>
@@ -172,7 +172,7 @@ export default function AnalysisForm({ onAnalyzeComplete }: AnalysisFormProps) {
         /* Normal Form Inputs */
         <div className="space-y-6">
           <div className="space-y-2">
-            <h2 className="font-display font-bold text-2xl text-white flex items-center gap-2">
+            <h2 className="font-display font-bold text-2xl text-slate-100 flex items-center gap-2">
               <BookOpen className="w-6 h-6 text-indigo-400" />
               <span>Ajukan Kasus untuk Analisis AI</span>
             </h2>
