@@ -77,7 +77,9 @@ Beberapa poin insight penting:
 - Express 4
 - TypeScript
 - @google/genai untuk integrasi Gemini API
-- `db.json` sebagai penyimpanan data sederhana
+- Prisma ORM dengan PostgreSQL (Neon) sebagai database utama
+- Zod untuk validasi skema request API
+
 
 ---
 
@@ -94,17 +96,26 @@ Beberapa poin insight penting:
 
 1. Install dependensi:
    ```bash
-   npm install
+   pnpm install
    ```
-2. Buat file `.env.local` di root dan tambahkan:
-   ```env
-   GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-   ```
-3. Jalankan aplikasi:
+2. Buat file `.env` di root proyek dengan menyalin berkas contoh:
    ```bash
-   npm run dev
+   copy .env.example .env
    ```
-4. Buka browser dan akses:
+   Lalu isi variabel-variabel lingkungan berikut:
+   *   `GEMINI_API_KEY`: Kunci API Gemini Anda.
+   *   `DATABASE_URL`: URL koneksi PostgreSQL (Neon).
+
+3. Sinkronisasikan skema Prisma ke database Neon:
+   ```bash
+   npx prisma db push
+   ```
+
+4. Jalankan aplikasi:
+   ```bash
+   pnpm run dev
+   ```
+5. Buka browser dan akses:
    ```
    http://localhost:3000
    ```
@@ -114,8 +125,9 @@ Beberapa poin insight penting:
 ## Catatan Pengembangan
 
 - Backend berjalan pada port `3000` dan menggunakan Vite middleware pada mode development.
-- Data disimpan pada `db.json`, sehingga setiap kali aplikasi dijalankan, kasus dan riwayat akan dipertahankan secara lokal.
+- Data disimpan pada database PostgreSQL (Neon) melalui Prisma Client, sehingga tidak menggunakan file lokal `db.json` lagi.
 - Demo kasus dapat dibuat otomatis melalui endpoint `/api/create-demo-case` untuk memperlihatkan output analisis Hukum Pidana dan ITE.
+
 
 ---
 

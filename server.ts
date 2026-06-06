@@ -4,8 +4,20 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 dotenv.config();
+
+const prisma = new PrismaClient();
+
+// Request body validation schema
+const analyzeSchema = z.object({
+  title: z.string().min(5, "Judul kasus minimal 5 karakter."),
+  chronology: z.string().min(20, "Deskripsi kronologi minimal 20 karakter."),
+  category: z.string().min(3, "Kategori wajib dipilih."),
+  evidence: z.string().optional().nullable()
+});
 
 async function startServer() {
   const app = express();
@@ -13,104 +25,122 @@ async function startServer() {
 
   app.use(express.json());
 
-  // Database path
-  const DB_PATH = path.join(process.cwd(), "db.json");
-
-  function getDb() {
-    try {
-      if (!fs.existsSync(DB_PATH)) {
-        const initialDb = { cases: [], history: [] };
-        fs.writeFileSync(DB_PATH, JSON.stringify(initialDb, null, 2));
-        return initialDb;
-      }
-      const data = fs.readFileSync(DB_PATH, "utf-8");
-      return JSON.parse(data);
-    } catch (err) {
-      console.error("Error reading database:", err);
-      return { cases: [], history: [] };
-    }
-  }
-
-  function saveDb(db: any) {
-    try {
-      fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
-    } catch (err) {
-      console.error("Error writing database:", err);
-    }
-  }
-
   // Get active user email, or default to iqbaljaffar1108@gmail.com
   const DEFAULT_USER_ID = "iqbaljaffar1108@gmail.com";
 
   // API Endpoints
   // Get all cases
-  app.get("/api/cases", (req, res) => {
-    const db = getDb();
-    const userCases = db.cases.filter((c: any) => c.userId === DEFAULT_USER_ID);
-    res.json(userCases);
+  app.get("/api/cases", async (req, res) => {
+    try {
+      const userCases = await prisma.case.findMany({
+        where: { userId: DEFAULT_USER_ID },
+        orderBy: { createdAt: "desc" }
+      });
+      res.json(userCases);
+    } catch (err: any) {
+      console.error("Error fetching cases:", err);
+      res.status(500).json({ error: "Gagal mengambil data kasus: " + err.message });
+    }
   });
 
   // Get specific case
-  app.get("/api/cases/:id", (req, res) => {
-    const db = getDb();
-    const caseItem = db.cases.find((c: any) => c.id === req.params.id && c.userId === DEFAULT_USER_ID);
-    if (!caseItem) {
-      return res.status(404).json({ error: "Kasus tidak ditemukan" });
+  app.get("/api/cases/:id", async (req, res) => {
+    try {
+      const caseItem = await prisma.case.findFirst({
+        where: { id: req.params.id, userId: DEFAULT_USER_ID }
+      });
+      if (!caseItem) {
+        return res.status(404).json({ error: "Kasus tidak ditemukan" });
+      }
+      res.json(caseItem);
+    } catch (err: any) {
+      console.error("Error fetching case detail:", err);
+      res.status(500).json({ error: "Gagal mengambil detail kasus: " + err.message });
     }
-    res.json(caseItem);
   });
 
   // Toggle bookmark
-  app.post("/api/cases/:id/bookmark", (req, res) => {
-    const db = getDb();
-    const caseIndex = db.cases.findIndex((c: any) => c.id === req.params.id && c.userId === DEFAULT_USER_ID);
-    if (caseIndex === -1) {
-      return res.status(404).json({ error: "Kasus tidak ditemukan" });
-    }
-    db.cases[caseIndex].isBookmarked = !db.cases[caseIndex].isBookmarked;
-    
-    db.history.push({
-      id: "h_" + Math.random().toString(36).substring(2, 11),
-      caseId: req.params.id,
-      userId: DEFAULT_USER_ID,
-      action: db.cases[caseIndex].isBookmarked ? "bookmarked" : "unbookmarked",
-      timestamp: new Date().toISOString()
-    });
+  app.post("/api/cases/:id/bookmark", async (req, res) => {
+    try {
+      const caseItem = await prisma.case.findFirst({
+        where: { id: req.params.id, userId: DEFAULT_USER_ID }
+      });
+      if (!caseItem) {
+        return res.status(404).json({ error: "Kasus tidak ditemukan" });
+      }
 
-    saveDb(db);
-    res.json(db.cases[caseIndex]);
+      const updatedCase = await prisma.case.update({
+        where: { id: req.params.id },
+        data: { isBookmarked: !caseItem.isBookmarked }
+      });
+      
+      await prisma.history.create({
+        data: {
+          caseId: req.params.id,
+          userId: DEFAULT_USER_ID,
+          action: updatedCase.isBookmarked ? "bookmarked" : "unbookmarked"
+        }
+      });
+
+      res.json(updatedCase);
+    } catch (err: any) {
+      console.error("Error toggling bookmark:", err);
+      res.status(500).json({ error: "Gagal memperbarui bookmark: " + err.message });
+    }
   });
 
   // Delete case
-  app.delete("/api/cases/:id", (req, res) => {
-    const db = getDb();
-    const caseIndex = db.cases.findIndex((c: any) => c.id === req.params.id && c.userId === DEFAULT_USER_ID);
-    if (caseIndex === -1) {
-      return res.status(404).json({ error: "Kasus tidak ditemukan" });
-    }
-    
-    const id = req.params.id;
-    db.cases.splice(caseIndex, 1);
-    db.history = db.history.filter((h: any) => h.caseId !== id);
+  app.delete("/api/cases/:id", async (req, res) => {
+    try {
+      const caseItem = await prisma.case.findFirst({
+        where: { id: req.params.id, userId: DEFAULT_USER_ID }
+      });
+      if (!caseItem) {
+        return res.status(404).json({ error: "Kasus tidak ditemukan" });
+      }
+      
+      const id = req.params.id;
+      await prisma.case.delete({
+        where: { id }
+      });
 
-    saveDb(db);
-    res.json({ message: "Kasus berhasil dihapus" });
+      await prisma.history.deleteMany({
+        where: { caseId: id }
+      });
+
+      res.json({ message: "Kasus berhasil dihapus" });
+    } catch (err: any) {
+      console.error("Error deleting case:", err);
+      res.status(500).json({ error: "Gagal menghapus kasus: " + err.message });
+    }
   });
 
   // Get active history
-  app.get("/api/history", (req, res) => {
-    const db = getDb();
-    const userHistory = db.history
-      .filter((h: any) => h.userId === DEFAULT_USER_ID)
-      .map((h: any) => {
-        const matchingCase = db.cases.find((c: any) => c.id === h.caseId);
-        return {
-          ...h,
-          caseTitle: matchingCase ? matchingCase.title : "Kasus Dihapus"
-        };
-      })
-      .sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    res.json(userHistory);
+  app.get("/api/history", async (req, res) => {
+    try {
+      const userHistory = await prisma.history.findMany({
+        where: { userId: DEFAULT_USER_ID },
+        orderBy: { timestamp: "desc" }
+      });
+
+      const caseIds = Array.from(new Set(userHistory.map((h: any) => h.caseId)));
+      const cases = await prisma.case.findMany({
+        where: { id: { in: caseIds } },
+        select: { id: true, title: true }
+      });
+
+      const caseMap = new Map(cases.map((c: any) => [c.id, c.title]));
+
+      const formattedHistory = userHistory.map((h: any) => ({
+        ...h,
+        caseTitle: caseMap.get(h.caseId) || "Kasus Dihapus"
+      }));
+
+      res.json(formattedHistory);
+    } catch (err: any) {
+      console.error("Error fetching history:", err);
+      res.status(500).json({ error: "Gagal mengambil log riwayat: " + err.message });
+    }
   });
 
   // Response schema for structured Gemini API output
@@ -207,47 +237,51 @@ async function startServer() {
 
   // Perform Gemini analysis
   app.post("/api/analyze", async (req, res) => {
-    const { title, chronology, category, evidence } = req.body;
-    
-    if (!title || !chronology || !category) {
-      return res.status(400).json({ error: "Judul, kronologi, dan kategori wajib diisi." });
+    // Validate request body using Zod
+    const parseResult = analyzeSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({
+        error: parseResult.error.issues.map((e) => e.message).join(" ")
+      });
     }
 
-    const newCaseId = "case_" + Math.random().toString(36).substring(2, 11);
-    
+    const { title, chronology, category, evidence } = parseResult.data;
+
     // Fallback if key is missing or mock is intended
     if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === "MY_GEMINI_API_KEY" || process.env.GEMINI_API_KEY === "") {
       console.warn("GEMINI_API_KEY is missing. Falling back to robust simulated reasoning.");
-      const simulatedResult = generateSimulatedReasoning(title, chronology, category, evidence);
+      const simulatedResult = generateSimulatedReasoning(title, chronology, category, evidence || undefined);
       
-      const newCase = {
-        id: newCaseId,
-        userId: DEFAULT_USER_ID,
-        title,
-        chronology,
-        category,
-        evidence: evidence || "",
-        createdAt: new Date().toISOString(),
-        result: simulatedResult,
-        isBookmarked: false
-      };
+      try {
+        const newCase = await prisma.case.create({
+          data: {
+            userId: DEFAULT_USER_ID,
+            title,
+            chronology,
+            category,
+            evidence: evidence || "",
+            result: simulatedResult as any,
+            isBookmarked: false
+          }
+        });
 
-      const db = getDb();
-      db.cases.push(newCase);
-      db.history.push({
-        id: "h_" + Math.random().toString(36).substring(2, 11),
-        caseId: newCaseId,
-        userId: DEFAULT_USER_ID,
-        action: "created",
-        timestamp: new Date().toISOString()
-      });
-      saveDb(db);
+        await prisma.history.create({
+          data: {
+            caseId: newCase.id,
+            userId: DEFAULT_USER_ID,
+            action: "created"
+          }
+        });
 
-      return res.json({
-        ...newCase,
-        isDemo: true,
-        warning: "Menggunakan mesin penalaran LexAI versi luring (offline) berstandar tinggi karena kunci API Gemini belum tersemat."
-      });
+        return res.json({
+          ...newCase,
+          isDemo: true,
+          warning: "Menggunakan mesin penalaran LexAI versi luring (offline) berstandar tinggi karena kunci API Gemini belum tersemat."
+        });
+      } catch (err: any) {
+        console.error("Failed to save offline case:", err);
+        return res.status(500).json({ error: "Gagal menyimpan kasus offline: " + err.message });
+      }
     }
 
     try {
@@ -300,28 +334,25 @@ Instruksi Analisis:
 
       const analyticResult = JSON.parse(responseText.trim());
 
-      const newCase = {
-        id: newCaseId,
-        userId: DEFAULT_USER_ID,
-        title,
-        chronology,
-        category,
-        evidence: evidence || "",
-        createdAt: new Date().toISOString(),
-        result: analyticResult,
-        isBookmarked: false
-      };
-
-      const db = getDb();
-      db.cases.push(newCase);
-      db.history.push({
-        id: "h_" + Math.random().toString(36).substring(2, 11),
-        caseId: newCaseId,
-        userId: DEFAULT_USER_ID,
-        action: "created",
-        timestamp: new Date().toISOString()
+      const newCase = await prisma.case.create({
+        data: {
+          userId: DEFAULT_USER_ID,
+          title,
+          chronology,
+          category,
+          evidence: evidence || "",
+          result: analyticResult,
+          isBookmarked: false
+        }
       });
-      saveDb(db);
+
+      await prisma.history.create({
+        data: {
+          caseId: newCase.id,
+          userId: DEFAULT_USER_ID,
+          action: "created"
+        }
+      });
 
       res.json(newCase);
 
@@ -335,26 +366,20 @@ Instruksi Analisis:
   });
 
   // Create demo case endpoint
-  app.post("/api/create-demo-case", (req, res) => {
-    const db = getDb();
-    const demoCaseId = "case_demo1";
-    
-    const existing = db.cases.find((c: any) => c.id === demoCaseId);
-    if (existing) {
-      return res.json(existing);
-    }
+  app.post("/api/create-demo-case", async (req, res) => {
+    try {
+      const demoCaseId = "case_demo1";
+      
+      const existing = await prisma.case.findFirst({
+        where: { id: demoCaseId }
+      });
+      if (existing) {
+        return res.json(existing);
+      }
 
-    const chronology = `Saya diajak bergabung dalam investasi pengadaan sarana IT kelurahan oleh seseorang bernama Rian (nama samaran/akun telegram medsos). Ia menjanjikan pembagian keuntungan tetap sebesar 20% setiap bulan dari modal yang disetorkan. Karena tertarik, saya mentransfer uang sebesar Rp150.000.000 ke rekening Rian secara dua tahap pada awal Februari 2026. Rian memberikan surat perjanjian kerja sama dengan kop surat fiktif Pemerintah Provinsi DKI Jakarta lengkap dengan stempel palsu yang meyakinkan. Setelah jatuh tempo pengembalian keuntungan pertama di bulan Maret, Rian sangat sulit dihubungi, nomor WhatsApp saya diblokir, dan ketika saya mengecek ke kantor kelurahan terkait, pengadaan IT tersebut dinyatakan sama sekali tidak ada. Kerugian yang saya alami mencapai 150 juta rupiah penuh tanpa ada pengembalian sepeser pun.`;
+      const chronology = `Saya diajak bergabung dalam investasi pengadaan sarana IT kelurahan oleh seseorang bernama Rian (nama samaran/akun telegram medsos). Ia menjanjikan pembagian keuntungan tetap sebesar 20% setiap bulan dari modal yang disetorkan. Karena tertarik, saya mentransfer uang sebesar Rp150.000.000 ke rekening Rian secara dua tahap pada awal Februari 2026. Rian memberikan surat perjanjian kerja sama dengan kop surat fiktif Pemerintah Provinsi DKI Jakarta lengkap dengan stempel palsu yang meyakinkan. Setelah jatuh tempo pengembalian keuntungan pertama di bulan Maret, Rian sangat sulit dihubungi, nomor WhatsApp saya diblokir, dan ketika saya mengecek ke kantor kelurahan terkait, pengadaan IT tersebut dinyatakan sama sekali tidak ada. Kerugian yang saya alami mencapai 150 juta rupiah penuh tanpa ada pengembalian sepeser pun.`;
 
-    const demoCase = {
-      id: demoCaseId,
-      userId: DEFAULT_USER_ID,
-      title: "Penipuan Investasi Pengadaan Alat IT Kelurahan Palsu",
-      chronology,
-      category: "Pidana - Transaksi Elektronik & Penipuan",
-      evidence: "Tangkapan layar chat Telegram, Bukti transfer Bank BCA Rp 150 Juta, Surat Perjanjian dengan Kop Surat palsu bermaterai",
-      createdAt: new Date().toISOString(),
-      result: {
+      const demoCaseResult = {
         ringkasan: "Kasus dugaan penipuan online bermodus penawaran kerja sama investasi fiktif pengadaan sarana IT kelurahan, di mana pelaku mengajak korban menyetor dana Rp 150.000.000 via Telegram dengan jaminan palsu berupa perjanjian berstempel Pemprov DKI Jakarta buatan, namun pelaku melarikan diri pasca kapital terkumpul.",
         klasifikasi: "Hukum Pidana - Penipuan Online (Pasal 28 Undang-Undang ITE jo. Pasal 378 KUHP)",
         pasalTerkait: [
@@ -395,21 +420,34 @@ Instruksi Analisis:
         potensiSanksi: "Pelaku dapat dijerat hukuman kumulatif atau alternatif: Pidana penjara paling lama 6 (enam) tahun dan denda maksimal Rp 1.000.000.000 (Pasal 45A UU ITE) serta tambahan hukuman pidana Pasal 263 KUHP Pemalsuan Surat.",
         kesimpulan: "Kasus ini memiliki pembuktian hukum yang sangat kuat (>90% keberhasilan). Rekomendasi langkah taktis: 1) Segera ajukan pemblokiran rekening terlapor ke Bank BCA pengirim dan bank penerima dengan menyerahkan Laporan Kejadian sementara; 2) Datangi SPKT Polres Metro setempat untuk melayangkan Laporan Pidana atas dugaan penipuan UU ITE dan pemalsuan dokumen.",
         confidenceScore: 92
-      },
-      isBookmarked: true
-    };
+      };
 
-    db.cases.push(demoCase);
-    db.history.push({
-      id: "h_demo",
-      caseId: demoCaseId,
-      userId: DEFAULT_USER_ID,
-      action: "created",
-      timestamp: new Date().toISOString()
-    });
-    saveDb(db);
+      const demoCase = await prisma.case.create({
+        data: {
+          id: demoCaseId,
+          userId: DEFAULT_USER_ID,
+          title: "Penipuan Investasi Pengadaan Alat IT Kelurahan Palsu",
+          chronology,
+          category: "Pidana - Transaksi Elektronik & Penipuan",
+          evidence: "Tangkapan layar chat Telegram, Bukti transfer Bank BCA Rp 150 Juta, Surat Perjanjian dengan Kop Surat palsu bermaterai",
+          result: demoCaseResult,
+          isBookmarked: true
+        }
+      });
 
-    res.json(demoCase);
+      await prisma.history.create({
+        data: {
+          caseId: demoCaseId,
+          userId: DEFAULT_USER_ID,
+          action: "created"
+        }
+      });
+
+      res.json(demoCase);
+    } catch (err: any) {
+      console.error("Error creating demo case:", err);
+      res.status(500).json({ error: "Gagal membuat kasus demo: " + err.message });
+    }
   });
 
   // Simulated reasoning engine for offline demo mode

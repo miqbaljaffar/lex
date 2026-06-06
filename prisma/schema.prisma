@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Case {
+  id           String   @id @default(uuid())
+  userId       String   @default("iqbaljaffar1108@gmail.com")
+  title        String
+  chronology   String   @db.Text
+  category     String
+  evidence     String?  @db.Text
+  createdAt    DateTime @default(now())
+  isBookmarked Boolean  @default(false)
+  result       Json?
+
+  @@index([userId])
+}
+
+model History {
+  id        String   @id @default(uuid())
+  caseId    String
+  userId    String   @default("iqbaljaffar1108@gmail.com")
+  action    String
+  timestamp DateTime @default(now())
+
+  @@index([userId])
+  @@index([caseId])
+}
