@@ -25,10 +25,14 @@ async function startServer() {
 
   app.use(express.json());
 
-  // Get active user email, or default to iqbaljaffar1108@gmail.com
-  const DEFAULT_USER_ID = "iqbaljaffar1108@gmail.com";
+  // Get active user email from environment variables, fallback to guest email
+  const DEFAULT_USER_ID = process.env.DEFAULT_USER_EMAIL || "guest@lexai.internal";
 
   // API Endpoints
+  // Get logged-in user profile
+  app.get("/api/user/profile", (req, res) => {
+    res.json({ email: DEFAULT_USER_ID });
+  });
   // Get all cases
   app.get("/api/cases", async (req, res) => {
     try {

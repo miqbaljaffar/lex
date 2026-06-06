@@ -14,8 +14,7 @@ export default function App() {
   const [history, setHistory] = useState<any[]>([]);
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
   const [appError, setAppError] = useState<string | null>(null);
-
-  const USER_EMAIL = "iqbaljaffar1108@gmail.com";
+  const [userEmail, setUserEmail] = useState<string>("guest@lexai.internal");
 
   // Fetch all cases from full-stack backend
   const fetchCases = async () => {
@@ -44,10 +43,24 @@ export default function App() {
     }
   };
 
+  // Fetch current user profile dynamically from backend
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch("/api/user/profile");
+      if (response.ok) {
+        const data = await response.json();
+        setUserEmail(data.email);
+      }
+    } catch (err) {
+      console.error("Gagal mengambil data profil:", err);
+    }
+  };
+
   // Run on startup
   useEffect(() => {
     fetchCases();
     fetchHistory();
+    fetchUserProfile();
   }, []);
 
   // Handler: Toggle Bookmark
@@ -139,7 +152,7 @@ export default function App() {
         }} 
         bookmarkedCount={bookmarkedCount}
         caseCount={caseCount}
-        userEmail={USER_EMAIL}
+        userEmail={userEmail}
       />
 
       {/* 2. Main Body Content panels */}
@@ -169,7 +182,7 @@ export default function App() {
             onToggleBookmark={handleToggleBookmark}
             onNavigateToAnalyze={() => setView("analyze")}
             onCreateDemoCase={handleCreateDemoCase}
-            userEmail={USER_EMAIL}
+            userEmail={userEmail}
           />
         )}
 
@@ -186,7 +199,7 @@ export default function App() {
             onToggleBookmark={handleToggleBookmark}
             onNavigateToAnalyze={() => setView("analyze")}
             onCreateDemoCase={handleCreateDemoCase}
-            userEmail={USER_EMAIL}
+            userEmail={userEmail}
           />
         )}
 
