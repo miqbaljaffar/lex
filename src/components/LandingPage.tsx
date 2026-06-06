@@ -160,7 +160,7 @@ export default function LandingPage({ onStart, caseCount }: LandingPageProps) {
                   <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600/10 group-hover:text-indigo-300 transition-colors">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="font-display font-bold text-3xl text-indigo-400/60 group-hover:text-indigo-600 transition-colors leading-none">{flow.step}</span>
+                  <span className="font-display font-bold text-3xl text-indigo-400 group-hover:text-indigo-700 transition-colors leading-none">{flow.step}</span>
                 </div>
                 <div className="space-y-1.5">
                   <h3 className="font-display font-semibold text-base text-slate-200">{flow.title}</h3>

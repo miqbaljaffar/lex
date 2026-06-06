@@ -58,6 +58,7 @@ export default function Sidebar({
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-slate-100"
           id="mobile-menu-btn"
+          aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
