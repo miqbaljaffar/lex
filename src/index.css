@@ -1,27 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lora", serif;
+  --font-serif: "Cinzel", serif;
   --font-mono: "Fira Code", monospace;
   
-  --color-brand-50: #f4f5fa;
-  --color-brand-100: #eae8f5;
-  --color-brand-200: #d5d1eb;
-  --color-brand-300: #b7addd;
-  --color-brand-400: #9380cd;
-  --color-brand-500: #7152bc;
-  --color-brand-600: #5c3ca5;
-  --color-brand-700: #4a2f86;
-  --color-brand-800: #3a256a;
-  --color-brand-900: #2f1e56;
+  --color-indigo-50: #faf7f2;
+  --color-indigo-100: #f3ebe0;
+  --color-indigo-200: #e7d9c3;
+  --color-indigo-300: #dcbe9a;
+  --color-indigo-400: #dfa868;
+  --color-indigo-500: #c89452;
+  --color-indigo-600: #a37238;
+  --color-indigo-700: #865a2c;
+  --color-indigo-800: #6a4621;
+  --color-indigo-900: #4f3318;
+  --color-indigo-950: #311f0e;
+
+  --color-purple-50: #faf5f2;
+  --color-purple-100: #f5e8e0;
+  --color-purple-200: #ead1c2;
+  --color-purple-300: #dcb29a;
+  --color-purple-400: #cfa38a;
+  --color-purple-500: #be6e4f;
+  --color-purple-600: #a35338;
+  --color-purple-700: #863f2c;
+  --color-purple-800: #6a2e21;
+  --color-purple-900: #4f2118;
+  --color-purple-950: #31130e;
+
+  --color-slate-50: #faf9f6;
+  --color-slate-100: #f5f2eb;
+  --color-slate-200: #eae4d9;
+  --color-slate-300: #dcd2bf;
+  --color-slate-400: #bcaea0;
+  --color-slate-500: #968979;
+  --color-slate-600: #74695d;
+  --color-slate-700: #564d44;
+  --color-slate-800: #3e3730;
+  --color-slate-900: #25221f;
+  --color-slate-950: #12100e;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #0b0f19;
-  color: #f8fafc;
+  background-color: #0c0a09;
+  color: #f5f2eb;
   overflow-x: hidden;
 }
 
@@ -31,35 +57,35 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0d1220;
+  background: #12100e;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #3e3730;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #564d44;
 }
 
 /* Glassmorphism utility classes */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(22, 20, 18, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(223, 168, 104, 0.08);
 }
 
 .glass-panel-hover:hover {
-  background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+  background: rgba(22, 20, 18, 0.6);
+  border-color: rgba(200, 148, 82, 0.25);
+  box-shadow: 0 10px 30px -10px rgba(200, 148, 82, 0.15);
 }
 
 .glass-panel-neon {
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(22, 20, 18, 0.55);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(99, 102, 241, 0.15);
-  box-shadow: 0 0 40px -15px rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(200, 148, 82, 0.18);
+  box-shadow: 0 0 40px -15px rgba(200, 148, 82, 0.15);
 }
 
 /* Printing styles for legal documents export */
@@ -81,7 +107,7 @@ body {
   .print-card {
     background: #ffffff !important;
     color: #111827 !important;
-    border: 1px solid #1e293b !important;
+    border: 1px solid #1c1917 !important;
     box-shadow: none !important;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -95,3 +121,4 @@ body {
     color: #111827 !important;
   }
 }
+

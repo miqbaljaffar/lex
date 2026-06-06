@@ -139,7 +139,7 @@ export default function App() {
   const activeCase = cases.find((c) => c.id === selectedCaseId);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#060a13] text-slate-100 selection:bg-indigo-600/30 selection:text-indigo-200">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-950 text-slate-100 selection:bg-indigo-600/25 selection:text-indigo-100">
       
       {/* 1. Sidebar Navigation */}
       <Sidebar 
